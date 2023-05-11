@@ -1,0 +1,28 @@
+from math import gcd
+# Given parameters
+n = 56153
+e = 17
+blocks = [1940, 5259, 22928, 29540, 39624, 12489, 43909]
+
+# Find the common factor with n
+common_factor = None
+for block in blocks:
+    if gcd(block, n) != 1:
+        common_factor = gcd(block, n)
+        break
+
+if common_factor:
+    # Factor n
+    p = common_factor
+    q = n // p
+
+    # Calculate the private key
+    phi = (p - 1) * (q - 1)
+    d = inverse(e, phi)
+
+    # Decrypt the blocks
+    plaintext = [pow(block, d, n) for block in blocks]
+    print("Plaintext:", plaintext)
+
+else:
+    print("No common factor found")
